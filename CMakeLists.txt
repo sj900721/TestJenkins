@@ -1,8 +1,20 @@
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.10)
 
-include_directories(${gtest__SOURCE_DIR}/include ${gtest__SOURCE_DIR})
+set(PROJECT_NAME TEST_JENKINS)
+
+#include(gtest)
+#include_directories(${GTEST_INCLUDE_DIRS})
+#
+#include_directories(${gtest_SOURCE_DIR}/include ${gtest__SOURCE_DIR})
 include_directories(${PROJECT_SOURCE_DIR})
 
-add_executable(main src/main.cpp tests/my_test.cpp src/Queue.cpp src/Queue.h)
+find_package(GTest REQUIRED)
+include_directories(${GTEST_INCLUDE_DIRS})
 
-target_link_libraries(main gtest gtest_main)
+enable_testing()
+
+add_executable(main tests/my_test.cpp src/Queue.cpp src/Queue.h)
+
+target_link_libraries(main ${GTEST_LIBRARIES} pthread)
+
+add_test(AllTests test)
